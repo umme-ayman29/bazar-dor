@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 বাজার দর (BazarDor)
 
-## Getting Started
+বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের আজকের দাম, দাম বাড়া-কমার হার এবং বিভিন্ন বাজারের তুলনামূলক দাম এক নজরে দেখার একটি Price Tracking ওয়েবসাইট।
 
-First, run the development server:
+🔗 **Live Site:** https://bazar-dor-peach-theta.vercel.app/
+
+## 📖 পরিচিতি
+
+বাজার দর ওয়েবসাইটে চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম-দুধ ও মসলার দাম ক্যাটাগরি অনুযায়ী দেখা যায়। প্রতিটি পণ্যের বিস্তারিত পেজে ঢাকা, চট্টগ্রাম, রাজশাহী, ময়মনসিংহ, খুলনা ও সিলেটের বিভিন্ন বাজারের সর্বনিম্ন, সর্বোচ্চ ও গড় দাম দেখানো হয়। সাইটটি মোবাইল, ট্যাবলেট ও ডেস্কটপ, সব স্ক্রিনে ব্যবহারযোগ্য।
+
+## ✨ প্রধান ফিচার
+
+1. **লাইভ প্রাইস টিকার:** নেভবারের নিচে অবিরাম চলমান স্ট্রিপে পণ্যের নাম, দাম এবং ▲/▼ পরিবর্তনের হার।
+2. **আজকের দাম বাড়া ও কমা:** হোম পেজে সবচেয়ে বেশি দাম বাড়া ও কমা শীর্ষ ৬টি করে পণ্য।
+3. **ক্যাটাগরি পেজ ও সর্টিং:** ক্যাটাগরি অনুযায়ী ফিল্টার, বাংলা সংখ্যা ঠিক রেখে সংখ্যার মান ধরে দাম অনুযায়ী সাজানো (কম থেকে বেশি / বেশি থেকে কম), লোডিং স্কেলিটনসহ।
+4. **প্রোটেক্টেড পণ্য বিবরণ পেজ:** লগইন করলেই দেখা যায়; সর্বনিম্ন, সর্বোচ্চ, গড় দাম এবং বাজারভিত্তিক দামের টেবিল।
+5. **অথেনটিকেশন (BetterAuth):** ইমেইল-পাসওয়ার্ড দিয়ে সাইন আপ/সাইন ইন, Google ও GitHub দিয়ে সোশ্যাল লগইন, এবং সব ক্ষেত্রে টোস্ট নোটিফিকেশন।
+6. **প্রোফাইল ও তথ্য আপডেট:** আমার প্রোফাইল পেজ থেকে নাম আপডেট করার সুবিধা।
+7. **রেসপন্সিভ ডিজাইন ও 404 পেজ:** সব স্ক্রিন সাইজে কাজ করে এবং ভুল রুটে বন্ধুসুলভ 404 পেজ দেখায়।
+
+## 🛠️ ব্যবহৃত প্রযুক্তি
+
+- [Next.js](https://nextjs.org/) (App Router)
+- TypeScript
+- Tailwind CSS + DaisyUI
+- [Better Auth](https://www.better-auth.com/)
+- MongoDB Atlas
+- react-hot-toast
+- Vercel (Deployment)
+
+## 🚀 লোকালি চালানোর নিয়ম
+
+```bash
+git clone https://github.com/umme-ayman29/bazar-dor.git
+cd bazar-dor
+npm install
+```
+
+প্রজেক্টের রুটে `.env.local` ফাইল বানিয়ে নিচের ভ্যারিয়েবলগুলো বসান:
+
+```env
+NEXT_PUBLIC_API_URL=
+MONGODB_URI=
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=http://localhost:3000
+```
+
+তারপর চালান:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ব্রাউজারে `http://localhost:3000` খুলুন।
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 API
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+পণ্যের ডেটা `https://api.api-store.workers.dev/api/bazardor` থেকে আসে (`/products`, `/categories`)।
 
-## Learn More
+## 👩‍💻 ডেভেলপার
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Programming Hero Assignment B14-A7 এর অংশ হিসেবে তৈরি।
