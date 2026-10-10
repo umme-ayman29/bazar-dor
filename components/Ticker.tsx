@@ -4,7 +4,6 @@ import { changeClass, formatChange, formatPrice, unitShort } from "@/lib/format"
 export default function Ticker({ products }: { products: Product[] }) {
   if (!products.length) return null;
 
-  // দুইবার বসানো, যাতে অনন্ত লুপ মসৃণ হয়
   const items = [...products, ...products];
 
   return (

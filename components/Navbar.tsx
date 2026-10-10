@@ -13,9 +13,6 @@ export default function Navbar({ categories }: { categories: Category[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // পরে Better Auth-এর useSession() বসাব
-  // ড্রপডাউন টেস্ট করতে null-এর জায়গায় লেখো:
-  // { name: "Rezwan Ahmed", email: "rezwan@gmail.com" }
   const [user] = useState<User | null>(null);
 
   return (

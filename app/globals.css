@@ -38,3 +38,7 @@ body {
 .ticker-track:hover {
   animation-play-state: paused;
 }
+
+html {
+  scroll-behavior: smooth;
+}
