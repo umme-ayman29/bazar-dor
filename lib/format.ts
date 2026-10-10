@@ -37,3 +37,11 @@ export const banglaDate = () =>
     year: "numeric",
     timeZone: "Asia/Dhaka",
   });
+
+  export const formatPriceFixed = (n: number) =>
+  `${toBn(
+    n.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  )} টাকা`;

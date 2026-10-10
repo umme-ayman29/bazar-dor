@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import AuthShell from "@/components/AuthShell";
 import SocialButtons from "@/components/SocialButtons";
@@ -11,11 +11,24 @@ import { authClient } from "@/lib/auth-client";
 const input =
   "w-full rounded-lg border border-[#e3ece3] bg-white px-3 py-2 text-sm outline-none placeholder:text-[#9aa8a0] focus:border-[#00923f]";
 
+
+const getNext = () => {
+  const next = new URLSearchParams(window.location.search).get("next");
+  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+};
+
 export default function SignInPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+ 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("next")) {
+      toast.error("এই পেজ দেখতে আগে সাইন ইন করুন", { id: "login-required" });
+    }
+  }, []);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +48,7 @@ export default function SignInPage() {
     }
 
     toast.success("সফলভাবে সাইন ইন হয়েছে");
-    router.push("/");
+    router.push(getNext());
     router.refresh();
   };
 
