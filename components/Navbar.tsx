@@ -2,35 +2,45 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import type { Category } from "@/lib/types";
 import { banglaDate } from "@/lib/format";
-
-type User = { name: string; email: string; image?: string };
+import { authClient } from "@/lib/auth-client";
 
 export default function Navbar({ categories }: { categories: Category[] }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const [user] = useState<User | null>(null);
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
+
+  const handleSignOut = async () => {
+    setOpen(false);
+    await authClient.signOut();
+    toast.success("সাইন আউট হয়েছে");
+    router.push("/");
+    router.refresh();
+  };
 
   return (
     <header className="border-b border-[#e3ece3] bg-[#fbfdfb]">
       <div className="mx-auto max-w-6xl px-4">
-        {/* সারি ১: লোগো + অথ বাটন */}
+        
         <div className="flex items-center justify-between py-3">
           <Link href="/" className="flex items-center gap-2.5">
-           <span className="grid h-9 w-9 place-items-center rounded-lg bg-[#00923f]">
-  <Image
-    src="/logo-icon.png"
-    alt="বাজার দর লোগো"
-    width={20}
-    height={20}
-    priority
-    className="h-5 w-5 object-contain"
-  />
-</span>
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-[#00923f]">
+              <Image
+                src="/logo-icon.png"
+                alt="বাজার দর লোগো"
+                width={20}
+                height={20}
+                priority
+                className="h-5 w-5 object-contain"
+              />
+            </span>
             <span className="leading-tight">
               <span className="block text-lg font-bold text-[#14281d]">
                 বাজার দর
@@ -44,7 +54,9 @@ export default function Navbar({ categories }: { categories: Category[] }) {
             </span>
           </Link>
 
-          {user ? (
+          {isPending ? (
+            <div className="h-8 w-28 animate-pulse rounded-lg bg-[#e3ece3]" />
+          ) : user ? (
             <div className="relative">
               <button
                 onClick={() => setOpen((v) => !v)}
@@ -58,7 +70,7 @@ export default function Navbar({ categories }: { categories: Category[] }) {
                   />
                 ) : (
                   <span className="grid h-7 w-7 place-items-center rounded-full bg-[#00923f] text-xs text-white">
-                    {user.name[0]}
+                    {user.name?.[0] ?? "U"}
                   </span>
                 )}
                 <span className="hidden text-sm sm:inline">{user.name}</span>
@@ -68,7 +80,9 @@ export default function Navbar({ categories }: { categories: Category[] }) {
               {open && (
                 <div className="absolute right-0 z-30 mt-2 w-60 rounded-xl border border-[#e3ece3] bg-white p-3 shadow-lg">
                   <p className="text-sm font-semibold">{user.name}</p>
-                  <p className="mb-2 text-xs text-[#5b6b61]">{user.email}</p>
+                  <p className="mb-2 break-all text-xs text-[#5b6b61]">
+                    {user.email}
+                  </p>
                   <div className="flex flex-col gap-1 border-t border-[#e3ece3] pt-2">
                     <Link
                       href="/profile"
@@ -77,7 +91,10 @@ export default function Navbar({ categories }: { categories: Category[] }) {
                     >
                       👤 আমার প্রোফাইল
                     </Link>
-                    <button className="rounded-lg px-2 py-1.5 text-left text-sm text-[#e11d2e] hover:bg-red-50">
+                    <button
+                      onClick={handleSignOut}
+                      className="rounded-lg px-2 py-1.5 text-left text-sm text-[#e11d2e] hover:bg-red-50"
+                    >
                       ↩ সাইন আউট
                     </button>
                   </div>
@@ -102,7 +119,7 @@ export default function Navbar({ categories }: { categories: Category[] }) {
           )}
         </div>
 
-        {/* সারি ২: ক্যাটাগরি লিংক (লোগোর নিচ থেকে বাঁ দিক ঘেঁষে) */}
+        
         <nav className="flex gap-1 overflow-x-auto pb-3">
           {categories.map((c) => {
             const href = `/category/${c.slug}`;
