@@ -1,9 +1,15 @@
 import type { Category, Product } from "./types";
 
-const BASES = [
-  process.env.NEXT_PUBLIC_API_URL ?? "https://api.api-store.workers.dev/api/bazardor",
-  "https://api.abcz.workers.dev/api/bazardor", // বিকল্প
-];
+const BASES = Array.from(
+  new Set(
+    [
+      "https://openapi.programming-hero.com/api/bazardor", // অফিসিয়াল
+      process.env.NEXT_PUBLIC_API_URL,
+      "https://api.api-store.workers.dev/api/bazardor",
+      "https://api.abcz.workers.dev/api/bazardor",
+    ].filter(Boolean) as string[]
+  )
+);
 
 async function get<T>(path: string): Promise<T | null> {
   for (const base of BASES) {
@@ -11,7 +17,7 @@ async function get<T>(path: string): Promise<T | null> {
       const res = await fetch(`${base}${path}`, { next: { revalidate: 60 } });
       if (res.ok) return (await res.json()) as T;
     } catch {
-      // try next base
+      // next base will try
     }
   }
   return null;
